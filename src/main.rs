@@ -170,14 +170,14 @@ fn divide_exp(a :&char, exp : Box<Exp>) -> Result<Box<Exp>, String> {
 fn divide_or(a: &char, exp: Box<Exp>) -> Result<Box<Exp>, String> {
     match *exp {
         Exp::Or(v) => {
-            let mut exps: Vec<Box<Exp>> = Vec::new();
+            let mut res: Box<Exp> = Box::new(Exp::Or(Vec::new()));
             for e in v.iter() {
-                match divide_concat(a, e.to_owned()) {
-                    Ok(r) => exps.push(r),
+                res = match divide_concat(a, e.to_owned()) {
+                    Ok(r) => or(res, r),
                     Err(s) => return Err(s)
-                }
-            }
-            Ok(Box::new(Exp::Or(exps)))
+                };
+            };
+            Ok(res)
         }
         _ => divide_concat(a, exp)
     }
