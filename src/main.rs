@@ -1,7 +1,6 @@
 fn main() {
   use std::env;
   let args: Vec<_> = env::args().collect();
-  println!("{:#?}", args);
   if args.len() < 3 {
     panic!("check [divider] [regular_expr]")
   }
